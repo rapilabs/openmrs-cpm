@@ -29,10 +29,15 @@
 	
 	// XXX
 	// not really sure how to grab a handle on the backing data with "OpenmrsSearch" so just getting a copy here
-	var currBackingData;
+	// defining something here apparently isn't in the global ns 
+	//var currBackingData;
 	function searchHandler(text, resultHandler, getMatchCount, opts) {
+		if (opts.start == 0) {
+			currBackingData = [];
+		}
 		DWRConceptService.findCountAndConcepts(text, opts.includeVoided, null, null, null, null, opts.start, opts.length, getMatchCount, function(resultsMap) {
-			currBackingData = resultsMap.objectList;
+			currBackingData = currBackingData.concat(resultsMap.objectList);
+			//currBackingData = resultsMap.objectList;
 			resultHandler(resultsMap);
 		});
 		//DWRConceptService.findCountAndConcepts(text, opts.includeVoided, null, null, null, null, opts.start, opts.length, getMatchCount, resultHandler);
@@ -47,7 +52,7 @@
 	}
 	
 	function columnRenderer(row_data){
-		var html = '<input type="checkbox" onclick="function(e){e.preventDefault();}" class="conceptSelector" id="conceptSelector-' + row_data.aData[2] + '" /> <span>' + row_data.aData[0] + '</span>';
+		var html = '<input type="checkbox" onclick="var event = arguments[0] || window.event; event.stopPropagation();" class="conceptSelector" id="conceptSelector-' + row_data.aData[2] + '" /> <span>' + row_data.aData[0] + '</span>';
 
 		if(row_data.aData[1] && $j.trim(row_data.aData[1]) != '') {
 			html += '<span class="otherHit"> &rArr; ' + row_data.aData[1] + '</span>';
@@ -70,9 +75,22 @@
 				var id = this.id.replace("conceptSelector-", "");
 				for (var i in currBackingData) {
 					if (currBackingData[i].conceptId == id) {
-						$j('#conceptsToBeSubmitted').append('<tr><td>' + currBackingData[i].name + '</td><td>' + currBackingData[i].description + '</td></tr>');
+						if ($j('.concept-' + id).size() == 0) {
+							var cb = $j('<input type="checkbox" class="removalSelector" />');
+							var row = $j('<tr style="cursor: pointer;" class="concept-' + id + '"><td></td><td>' + currBackingData[i].name + '</td><td>' + currBackingData[i].description + '</td></tr>');
+							$j('td:first', row).prepend(cb);
+							row.click(function() {
+								cb[0].checked = !cb[0].checked;
+							}).mouseenter(function(){
+								this.style.backgroundColor = "#F0E68C";
+							}).mouseleave(function(){
+								this.style.backgroundColor = "";
+							});
+							$j('#conceptsToBeSubmitted').append(row);
+						}
 					}
 				}
+				refreshSelectionTable();
 			}).size() > 0) {
 				$j('#noDataMsg').hide();
 			}
@@ -82,7 +100,25 @@
 			$j('#noDataMsg').show();
 			$j('#conceptsToBeSubmitted').empty();
 		});
+		
+		$j('#removeSelected').click(function() {
+			var q = $j('.removalSelector:checked').each(function(){
+				var tr = $j(this).parents('tr').eq(0);
+				var id = tr[0].className.replace("concept-", "");
+				tr.remove();
+				refreshSelectionTable();
+				if ($j('#conceptsToBeSubmitted').children().length == 0) {
+					$j('#noDataMsg').show();
+				}
+			});
+		});
+		
 	});
+	
+	function refreshSelectionTable() {
+		// zero-indexed!
+		$j('#conceptsToBeSubmitted tr').removeClass("odd").filter(':even').addClass("odd");
+	}
 	
 </script>
 
@@ -99,23 +135,31 @@
  <button id="addSelected" accesskey="a"><span style="text-decoration: underline;">A</span>dd selected</button>
 </div>
 
-<h3 style="margin-top: 1em;">Concepts to submit</h3>
+<b style="margin-top: 1em;" class="boxHeader">Concepts to submit</b>
+<div class="box">
 
-<div style="margin-top: 1em;">
- <button id="clearProposalList" accesskey="c"><span style="text-decoration: underline;">C</span>lear </button>
-</div>
-
-<table class="box" style="margin-top: 1em; margin-bottom: 1em;">
+<table style="margin-top: 1em; margin-bottom: 1em;" cellpadding="2" cellspacing="0" width="100%">
  <thead>
-  <tr><td style="font-weight: bold;">Name</td><td style="font-weight: bold;">Description</td></tr>
+  <tr><td></td><td style="font-weight: bold;">Name</td><td style="font-weight: bold;">Description</td></tr>
  </thead>
  <tbody id="noDataMsg">
-  <tr><td colspan="2"><em>No concepts selected yet</em></td></tr>
+  <tr><td colspan="3"><em>No concepts selected yet</em></td></tr>
  </tbody>
  <tbody id="conceptsToBeSubmitted"></tbody>
 </table>
 
-<button id="submitProposal">Submit Proposal</button>
+<div style="margin-top: 1em;">
+ <button id="clearProposalList" accesskey="c"><span style="text-decoration: underline;">C</span>lear </button>
+ <button id="removeSelected"><span style="text-decoration: underline;">R</span>emove selected</button>
+</div>
+
+<table style="margin-top: 1em;">
+ <tr><td>Name</td><td><input type="text"/></td></tr>
+ <tr><td>Email</td><td><input type="text"/></td></tr>
+</table>
+
+ <button id="submitProposal">Submit Proposal</button>
+</div>
 
 <br/>
 
