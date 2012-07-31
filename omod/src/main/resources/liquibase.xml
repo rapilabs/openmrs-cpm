@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet id="cpm-2012-07-25-22:41" author="dsanders">
+		<createTable tableName="concept_proposal_cpm">
+			<column name="concept_proposal_cpm_id" type="BIGINT">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="title" type="varchar(255)"/>
+			<column name="proposers_name" type="varchar(255)"/>
+			<column name="proposers_email" type="varchar(255)"/>
+			<column name="description" type="CLOB"/>
+		</createTable>
+	<!-- 
+		<addColumn tableName="concept">
+			<column name="is_local" type="boolean" />
+		</addColumn>
+	 -->
+	</changeSet>
+</databaseChangeLog>
