@@ -7,6 +7,8 @@ import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
+import org.openmrs.web.Interceptors;
+import org.openmrs.web.BasicAuthInterceptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Controller
+@Interceptors(BasicAuthInterceptor.class)
 public class DictionaryManagerController {
 
 	//
@@ -52,16 +55,6 @@ public class DictionaryManagerController {
 				proposedConceptResponsePackage.addProposedConcept(response);
 			}
 		}
-
-//		String authHeader = request.getHeader("authorization");
-//		String encodedValue = authHeader.split(" ")[1];
-//		final byte[] bytes = DatatypeConverter.parseBase64Binary(encodedValue);
-//		String decodedValue = new String(bytes);
-//		final String[] strings = decodedValue.split(":");
-//
-//		final String username = strings[0];
-//		final String password = strings[1];
-//		Context.authenticate(username, password);
 
 		service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
 
