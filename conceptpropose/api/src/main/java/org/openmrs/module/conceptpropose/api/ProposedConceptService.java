@@ -1,11 +1,11 @@
-package org.openmrs.module.cpm.api;
+package org.openmrs.module.conceptpropose.api;
 
 import java.util.List;
 
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.cpm.*;
+import org.openmrs.module.conceptpropose.*;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

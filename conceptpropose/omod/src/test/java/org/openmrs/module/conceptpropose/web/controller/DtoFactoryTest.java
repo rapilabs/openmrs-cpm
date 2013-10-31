@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,16 +13,16 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptNameType;
-import org.openmrs.module.cpm.ProposalStatus;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponseDescription;
-import org.openmrs.module.cpm.ProposedConceptResponseName;
-import org.openmrs.module.cpm.ProposedConceptResponseNumeric;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
-import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
-import org.openmrs.module.cpm.web.dto.concept.NumericDto;
-import org.openmrs.module.cpm.web.dto.factory.DtoFactory;
+import org.openmrs.module.conceptpropose.ProposalStatus;
+import org.openmrs.module.conceptpropose.ProposedConceptResponse;
+import org.openmrs.module.conceptpropose.ProposedConceptResponseDescription;
+import org.openmrs.module.conceptpropose.ProposedConceptResponseName;
+import org.openmrs.module.conceptpropose.ProposedConceptResponseNumeric;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponseDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
+import org.openmrs.module.conceptpropose.web.dto.factory.DtoFactory;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

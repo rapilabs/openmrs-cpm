@@ -14,8 +14,8 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.*;
-import org.openmrs.module.cpm.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.*;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertThat;
 public class TestProposedConceptService extends CpmBaseContextSensitive {
 	
 	private static final Log log = LogFactory.getLog(TestProposedConceptService.class);
-	private static final String CPM_CORE_DATASET = "org/openmrs/module/cpm/coreTestData.xml";
+	private static final String CPM_CORE_DATASET = "org.openmrs.module.conceptpropose/coreTestData.xml";
 	private static final String TEST_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.S";
 	private static final String TEST_DATE_DISPLAY_FORMAT = "yyyy-MM-dd HH:mm:ss.S z G";
 			
